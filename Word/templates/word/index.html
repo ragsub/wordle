@@ -61,7 +61,7 @@
                 <div class="col-12 border-bottom"></div>
             </div>
             {{alphabet_formset}}
-            <div class="row mt-auto mx-auto no-gutters justify-content-between">
+            <div class="row my-2 py-2 no-gutters justify-content-between">
                 <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('q')}" @keyup.q.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('q')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.16.l_color.value}}"><p class="m-0 p-0">q</p></div>
                 <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('w')}" @keyup.w.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('w')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.22.l_color.value}}"><p class="m-0 p-0">w</p></div>
                 <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('e')}" @keyup.e.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('e')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.4.l_color.value}}"><p class="m-0 p-0">e</p></div>
