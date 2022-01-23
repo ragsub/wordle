@@ -1,0 +1,16 @@
+*.pyc
+__pycache__/
+lib/
+lib64/
+share/
+bin/
+etc/
+pyvenv.cfg
+__pycache__
+lib
+lib64
+share
+bin
+etc
+db.sqlite3
+wordle/templates/wordle/wordle_backup.html

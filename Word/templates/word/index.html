@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include "word/__include.html" %}
+    <title>Guess the word</title>
+</head>
+<body>
+    {%load word_tags%}
+    <div class="container col-sm-12 col-md-9 col-lg-6 vh-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row my-2 py-2 border-bottom justify-content-end">
+                <div class="col-4">
+                    <span class="h1">WORDLE</span>
+                </div>
+                <div class="col-4 text-end">
+                    <a class="btn btn-link" hx-get={% url "help" %} hx-target="#modal_placeholder" hx-trigger="click" @htmx:after-settle.camel.document="my_modal=new bootstrap.Modal($refs.modaldiv);my_modal.show()"> <i class="bi bi-question-circle"></i></a>
+                </div>
+            </div>
+            <div class="row my-2 py-2 justify-content-center">
+                <div class="col-10">
+                    <button class="btn btn-primary btn-sm" x-ref='submit_guess_button' hidden>Guess</button>
+                    {{form}}
+                    {{form.attempts_left}}
+                    {{form.attempt_number}}
+                    {% for message in messages %}
+                        <div x-data="{ show: true }" x-show="show" x-transition class="alert p-1 m-1 {% if message.tags == 'safe success'%} alert-success {%else%} alert-danger {%endif%}" {% if message.tags != 'safe success'%}x-init="setTimeout(() => show = false, 2000){%endif%}">{{ message |safe }}</div>
+                    {% endfor %}
+                    <div x-cloak x-show="show_error" class="alert alert-danger">Word should be 5 letters</div>
+                </div>
+            </div>
+            {{guess_formset}}
+            {% for guess_form in guess_formset%}
+            {{guess_form.guess}}
+            <div class="row py-2 my-2 justify-content-center">
+                {% with forloop.counter|define as i%}
+                {% with "guess_"|concat:i|concat:"_xmodel.substring(0,1).toUpperCase()" as l1 %}
+                <div class="col-2"><input class="form-control text-center {{guess_form.l1_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify  == form.attempt_number.value|slugify  %} guess_xmodel.substring(0,1).toUpperCase() {%else%} {{l1}} {%endif%}"></div>
+                {%endwith%}
+                {% with "guess_"|concat:i|concat:"_xmodel.substring(1,2).toUpperCase()" as l2 %}
+                <div class="col-2"><input class="form-control text-center {{guess_form.l2_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(1,2).toUpperCase() {%else%} {{l2}} {%endif%}"></div>
+                {%endwith%}
+                {% with "guess_"|concat:i|concat:"_xmodel.substring(2,3).toUpperCase()" as l3 %}
+                <div class="col-2"><input class="form-control text-center {{guess_form.l3_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(2,3).toUpperCase() {%else%} {{l3}} {%endif%}"></div>
+                {%endwith%}
+                {% with "guess_"|concat:i|concat:"_xmodel.substring(3,4).toUpperCase()" as l4 %}
+                <div class="col-2"><input class="form-control text-center {{guess_form.l4_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(3,4).toUpperCase() {%else%} {{l4}} {%endif%}"></div>
+                {%endwith%}
+                {% with "guess_"|concat:i|concat:"_xmodel.substring(4,5).toUpperCase()" as l5 %}
+                <div class="col-2"><input class="form-control text-center {{guess_form.l5_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(4,5).toUpperCase() {%else%} {{l5}} {%endif%}"></div>
+                {%endwith%}
+                {%endwith%}
+            </div>
+            {%endfor%}
+
+
+            <div class="row justify-content-center">
+                <div class="col-12 border-bottom"></div>
+            </div>
+            {{alphabet_formset}}
+            <div class="row py-1 my-1 mx-auto no-gutters justify-content-between">
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('q')}" @keyup.q.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('q')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.16.l_color.value}}"><p class="m-0 p-0">q</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('w')}" @keyup.w.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('w')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.22.l_color.value}}"><p class="m-0 p-0">w</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('e')}" @keyup.e.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('e')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.4.l_color.value}}"><p class="m-0 p-0">e</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('r')}" @keyup.r.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('r')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.17.l_color.value}}"><p class="m-0 p-0">r</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('t')}" @keyup.t.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('t')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.19.l_color.value}}"><p class="m-0 p-0">t</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('y')}" @keyup.y.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('y')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.24.l_color.value}}"><p class="m-0 p-0">y</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('u')}" @keyup.u.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('u')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.20.l_color.value}}"><p class="m-0 p-0">u</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('i')}" @keyup.i.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('i')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.8.l_color.value}}"><p class="m-0 p-0">i</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('o')}" @keyup.o.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('o')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.14.l_color.value}}"><p class="m-0 p-0">o</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('p')}" @keyup.p.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('p')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.15.l_color.value}}"><p class="m-0 p-0">p</p></div>
+            </div>
+            <div class="row my-1 py-1 mx-auto justify-content-evenly">
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('a')}" @keyup.a.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('a')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.0.l_color.value }}" ><p class="m-0 p-0">a</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('s')}" @keyup.s.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('s')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.18.l_color.value}}" ><p class="m-0 p-0">s</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('d')}" @keyup.d.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('d')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.3.l_color.value }}" ><p class="m-0 p-0">d</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('f')}" @keyup.f.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('f')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.5.l_color.value }}" ><p class="m-0 p-0">f</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('g')}" @keyup.g.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('g')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.6.l_color.value }}" ><p class="m-0 p-0">g</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('h')}" @keyup.h.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('h')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.7.l_color.value }}" ><p class="m-0 p-0">h</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('j')}" @keyup.j.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('j')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.9.l_color.value }}" ><p class="m-0 p-0">j</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('k')}" @keyup.k.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('k')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.10.l_color.value}}" ><p class="m-0 p-0">k</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('l')}" @keyup.l.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('l')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.11.l_color.value}}" ><p class="m-0 p-0">l</p></div>
+            </div>
+            <div class="row mt-1 pt-1 mb-2 pb-2 mx-auto justify-content-between border-bottom">
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('z')}" @keyup.z.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('z')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.25.l_color.value}}"><p class="m-0 p-0">z</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('x')}" @keyup.x.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('x')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.23.l_color.value}}"><p class="m-0 p-0">x</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('c')}" @keyup.c.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('c')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.2.l_color.value}}" ><p class="m-0 p-0">c</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('v')}" @keyup.v.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('v')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.21.l_color.value}}"><p class="m-0 p-0">v</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('b')}" @keyup.b.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('b')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.1.l_color.value}}" ><p class="m-0 p-0">b</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('n')}" @keyup.n.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('n')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.13.l_color.value}}"><p class="m-0 p-0">n</p></div>
+                <div x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('m')}" @keyup.m.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('m')}" class="col-1 mx-0 px-0 border btn btn-lg {{alphabet_formset.12.l_color.value}}"><p class="m-0 p-0">m</p></div>
+                <div x-on:click="if ((guess_xmodel.length > 1) && (attempts_left_xmodel>0)) {guess_xmodel=guess_xmodel.substring(0,guess_xmodel.length-1)} else{guess_xmodel=''}" @keyup.backspace.window="if (guess_xmodel.length > 1) {guess_xmodel=guess_xmodel.substring(0,guess_xmodel.length-1)} else{guess_xmodel=''}" class="col-1 mx-0 px-0 border btn btn-lg btn-primary"><i class="bi bi-arrow-left m-0 p-0 fs-6"></i></div>
+                <div x-on:click="if ((guess_xmodel.length == 5)) {$refs.submit_guess_button.click()} else {show_error=true;setTimeout(function(){show_error=false;},1000);}" @keyup.enter.window="if ((guess_xmodel.length == 5)) {$refs.submit_guess_button.click()} else {show_error=true;setTimeout(function(){show_error=false;},1000);}" class="col-1 mx-0 px-0 border btn btn-lg btn-primary"><i class="bi bi-arrow-return-left m-0 p-0 fs-6"></i></div>
+            </div>
+            </form>
+        </div>

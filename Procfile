@@ -1,0 +1,1 @@
+web: gunicorn wordle.wsgi --log-file -
