@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the word</title>
+    {% include "word/__include.html" %}
+</head>
+<body>
+    <div class="container col-sm-12 col-md-9 col-lg-6 vh-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row my-1 py-1 border-bottom justify-content-end">
+                <div class="col-6">
+                    <span class="h1">FIND WORD</span>
+                </div>
+                <div class="col-2 text-end">
+                    <a class="btn btn-link" hx-get={% url "help" %} hx-target="#modal_placeholder" hx-trigger="click" @htmx:after-settle.camel.document="my_modal=new bootstrap.Modal($refs.modaldiv);my_modal.show()"> <i class="bi bi-question-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="row my-1 py-1 no-gutters border-bottom justify-content-around">
+                <div class="col-5 border">
+                    <div class="row text-end py-1 my-1 bg-light border-bottom"><div class="col-3"></div><div class="col-2 px-1 mx-1 text-center fw-bold">Pos</div><div class="col-2 px-1 mx-1 text-center fw-bold">In</div><div class="col-2 px-1 mx-1 text-center fw-bold">Out</div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">A</div><div class="col-2 px-1 mx-1 btn btn-white border" x-on:click=""></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">B</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">C</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">D</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">E</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">F</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">G</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">H</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">I</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">J</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">K</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">L</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">M</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                </div>
+                <div class="col-5 border">
+                    <div class="row text-end py-1 my-1 bg-light border-bottom"><div class="col-3"></div><div class="col-2 px-1 mx-1 text-center fw-bold">Pos</div><div class="col-2 px-1 mx-1 text-center fw-bold">In</div><div class="col-2 px-1 mx-1 text-center fw-bold">Out</div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">N</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">O</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">P</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">Q</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">R</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">S</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">T</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">U</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">V</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">W</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">X</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">Y</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                    <div class="row text-end py-1 my-1"><div class="col-3">Z</div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div><div class="col-2 px-1 mx-1 btn btn-white border"></div></div>
+                </div>
+            </div>
+            <div class="row my-2 py-2 no-gutters border-bottom justify-content-center">
+                <div class="col-6 text-end">Recommend</div>
+                <div class="col-6 text-start">12345</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
