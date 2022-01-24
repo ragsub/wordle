@@ -1,15 +1,15 @@
 from Wordle.settings import BASE_DIR
 import json, os
 
-letter1 = ''
-letter2 = ''
+letter1 = 'b'
+letter2 = 'e'
 letter3 = ''
 letter4 = ''
 letter5 = ''
 
-letters_in = 'on'
+letters_in = 'ad'
 
-letters_not_in = 'ertiasfghm'
+letters_not_in = 'rtyosnm'
 
 five_letter_words = os.path.join(BASE_DIR, 'static', '5-letter-words.json')
 en_dict = json.load(open(five_letter_words))
