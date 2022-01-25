@@ -11,14 +11,15 @@
 </head>
 <body style="position:fixed;height:100%;width:100%">
     <div class="container d-flex flex-column align-items-center justify-content-between h-100 w-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
-        <div class="row my-2 py-2 border-bottom w-100">
-            <div class="col">
-                <span class="h1 align-middle text-center">WORDLE</span>
-                <a class="btn btn-link" href={%url "process_word"%}><i class="bi bi-stars"></i></a>
+        <div class="row my-2 py-2 align-items-center justify-content-center border-bottom w-100">
+            <div class="col-4"></div>
+            <div class="col-4"><span class="h1">WORDLE</span></div>
+            <div class="col-4">
+                <a class="btn btn-link" href={%url "process_word"%}><i class="bi bi-stars"></i>
                 <a class="btn btn-link" hx-get={% url "help" %} hx-target="#modal_placeholder" hx-trigger="click" @htmx:after-settle.camel.document="my_modal=new bootstrap.Modal($refs.modaldiv);my_modal.show()"> <i class="bi bi-question-circle"></i></a>
             </div>
         </div>
-        <div class="row flex-grow-1 justify-content-center">
+        <div class="row flex-grow-1 justify-content-center align-items-center">
             <form method="POST">
                 {% csrf_token %}            
                 <button class="btn btn-primary btn-sm" x-ref='submit_guess_button' hidden>Guess</button>
