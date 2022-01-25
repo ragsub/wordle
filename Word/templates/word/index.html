@@ -9,7 +9,7 @@
 </head>
 <body>
     {%load word_tags%}
-    <div class="container d-flex flex-column align-items-center justify-content-between h-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
+    <div class="container d-flex flex-column align-items-center justify-content-between vh-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
             <div class="row my-1 py-1 border-bottom">
                 <div class="col-4"></div>
                 <div class="col-6">
@@ -45,22 +45,22 @@
             </div>
             {% for guess_form in guess_formset%}
             {{guess_form.guess}}
-            <div class="row my-0 py-0 w-100 justify-content-center">
+            <div class="row m-0 p-0 w-100 flex-grow-0 justify-content-center">
                 {% with forloop.counter|define as i%}
                 {% with "guess_"|concat:i|concat:"_xmodel.substring(0,1).toUpperCase()" as l1 %}
-                <div class="col-2"><input class="form-control-lg fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l1_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify  == form.attempt_number.value|slugify  %} guess_xmodel.substring(0,1).toUpperCase() {%else%} {{l1}} {%endif%}"></div>
+                <div class="col-2 m-0 p-0"><input class="form-control fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l1_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify  == form.attempt_number.value|slugify  %} guess_xmodel.substring(0,1).toUpperCase() {%else%} {{l1}} {%endif%}"></div>
                 {%endwith%}
                 {% with "guess_"|concat:i|concat:"_xmodel.substring(1,2).toUpperCase()" as l2 %}
-                <div class="col-2"><input class="form-control-lg fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l2_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(1,2).toUpperCase() {%else%} {{l2}} {%endif%}"></div>
+                <div class="col-2 m-0 p-0"><input class="form-control fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l2_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(1,2).toUpperCase() {%else%} {{l2}} {%endif%}"></div>
                 {%endwith%}
                 {% with "guess_"|concat:i|concat:"_xmodel.substring(2,3).toUpperCase()" as l3 %}
-                <div class="col-2"><input class="form-control-lg fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l3_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(2,3).toUpperCase() {%else%} {{l3}} {%endif%}"></div>
+                <div class="col-2 m-0 p-0"><input class="form-control fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l3_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(2,3).toUpperCase() {%else%} {{l3}} {%endif%}"></div>
                 {%endwith%}
                 {% with "guess_"|concat:i|concat:"_xmodel.substring(3,4).toUpperCase()" as l4 %}
-                <div class="col-2"><input class="form-control-lg fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l4_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(3,4).toUpperCase() {%else%} {{l4}} {%endif%}"></div>
+                <div class="col-2 m-0 p-0"><input class="form-control fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l4_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(3,4).toUpperCase() {%else%} {{l4}} {%endif%}"></div>
                 {%endwith%}
                 {% with "guess_"|concat:i|concat:"_xmodel.substring(4,5).toUpperCase()" as l5 %}
-                <div class="col-2"><input class="form-control-lg fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l5_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(4,5).toUpperCase() {%else%} {{l5}} {%endif%}"></div>
+                <div class="col-2 m-0 p-0"><input class="form-control fw-bold text-center {% if i|slugify  != form.attempt_number.value|slugify  %}text-light{%endif%} fs-5 {{guess_form.l5_color.value}}" readonly type="text", size="1" x-bind:value="{% if i|slugify == form.attempt_number.value|slugify %} guess_xmodel.substring(4,5).toUpperCase() {%else%} {{l5}} {%endif%}"></div>
                 {%endwith%}
                 {%endwith%}
             </div>
