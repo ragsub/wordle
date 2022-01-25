@@ -18,7 +18,7 @@
                 <a class="btn btn-link" hx-get={% url "help" %} hx-target="#modal_placeholder" hx-trigger="click" @htmx:after-settle.camel.document="my_modal=new bootstrap.Modal($refs.modaldiv);my_modal.show()"> <i class="bi bi-question-circle"></i></a>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row flex-grow-1 justify-content-center">
             <form method="POST">
                 {% csrf_token %}            
                 <button class="btn btn-primary btn-sm" x-ref='submit_guess_button' hidden>Guess</button>
