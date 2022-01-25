@@ -9,8 +9,8 @@
     {%load word_tags%}
 
 </head>
-<body>
-    <div class="container d-flex flex-column align-items-center justify-content-between vh-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
+<body style="position:fixed;height:100%;width:100%">
+    <div class="container d-flex flex-column align-items-center justify-content-between h-100 w-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
         <div class="row my-2 py-2 border-bottom w-100">
             <div class="col">
                 <span class="h1 align-middle text-center">WORDLE</span>
