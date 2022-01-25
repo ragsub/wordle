@@ -136,7 +136,7 @@ def process_word(request):
         context['alphabet_formset'] = alphabet_formset
 
     #send back the html template
-    return render(request=request, template_name='word/index.html', context=context)
+    return render(request=request, template_name='word/index1.html', context=context)
 
 
 def help_menu(request):

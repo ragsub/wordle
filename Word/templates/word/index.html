@@ -7,12 +7,12 @@
     {% include "word/__include.html" %}
     <title>Guess the word</title>
 </head>
-<body class="p-0 m-0" style="position: fixed; height: 100%;">
+<body class="p-0 m-0" style="position:fixed; height:100%;">
     {%load word_tags%}
     <div class="container d-flex flex-column align-items-center justify-content-between h-100" x-data="{ guess_xmodel: '', guess_1_xmodel:'{{guess_formset.0.guess.value|default_if_none:""}}', guess_2_xmodel:'{{guess_formset.1.guess.value |default_if_none:""}}', guess_3_xmodel:'{{guess_formset.2.guess.value|default_if_none:""}}', guess_4_xmodel:'{{guess_formset.3.guess.value|default_if_none:""}}',guess_5_xmodel:'{{guess_formset.4.guess.value|default_if_none:""}}', guess_6_xmodel:'{{guess_formset.5.guess.value|default_if_none:""}}', attempts_left_xmodel:'{{form.attempts_left.value|default_if_none:0}}', attempt_number_xmodel:'{{form.attempt_number.value|default_if_none:0}}', show_error: false, my_modal:''}">
-        <div class="row my-2 py-2 w-100 border-bottom">
+        <div class="row my-2 py-2 border-bottom w-100">
             <div class="col-4"></div>
-            <div class="col-6">
+            <div class="col-6 text-middle">
                 <span class="h1">WORDLE</span>
             </div>
             <div class="col-1 text-end">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="row justify-content-center flex-grow-1">
-            <div class="col-10">
+            <div class="col-12">
                 <form method="POST">
                     {% csrf_token %}            
                     <button class="btn btn-primary btn-sm" x-ref='submit_guess_button' hidden>Guess</button>
@@ -43,6 +43,8 @@
      
         {% for guess_form in guess_formset%}
         {{guess_form.guess}}
+        <div class="row">
+            <div class="col">
         <div class="my-0 py-0 d-flex d-grid justify-content-center">
             {% with forloop.counter|define as i%}
             {% with "guess_"|concat:i|concat:"_xmodel.substring(0,1).toUpperCase()" as l1 %}
@@ -63,11 +65,14 @@
             {%endwith%}
         </div>
         {%endfor%}
+        </div>
+        </div>
         
         <div class="row my-2 py-2 flex-grow-1 w-100">
             <div class="col-12 border-bottom"></div>
         </div>
-
+        <div class="row">
+            <div class="col">
         <div class="w-100 my-1 py-1 d-flex d-grid gap-1 justify-content-between" style="height:60px;">
             <button x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('q')}" @keyup.q.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('q')}" style = "width:35px;"type="button" class="btn border {{alphabet_formset.16.l_color.value}}">Q</button>
             <button x-on:click="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('w')}" @keyup.w.window="if ((guess_xmodel.length < 5) && (attempts_left_xmodel>0)) {guess_xmodel = guess_xmodel.concat('w')}" style = "width:35px;"type="button" class="btn border {{alphabet_formset.22.l_color.value}}">W</button>
@@ -102,6 +107,7 @@
             <button x-on:click="if ((guess_xmodel.length > 1) && (attempts_left_xmodel>0)) {guess_xmodel=guess_xmodel.substring(0,guess_xmodel.length-1)} else{guess_xmodel=''}" @keyup.backspace.window="if (guess_xmodel.length > 1) {guess_xmodel=guess_xmodel.substring(0,guess_xmodel.length-1)} else{guess_xmodel=''}" style = "width:45px;" type="button" class="btn border btn-primary"><i class="bi bi-arrow-left"></i></button>
             <button x-on:click="if ((guess_xmodel.length == 5)) {$refs.submit_guess_button.click()} else {show_error=true;setTimeout(function(){show_error=false;},1000);}" @keyup.enter.window="if ((guess_xmodel.length == 5)) {$refs.submit_guess_button.click()} else {show_error=true;setTimeout(function(){show_error=false;},1000);}" style = "width:45px;" type="button" class="btn border btn-primary"><i class="bi bi-arrow-return-left"></i></button>
         </div>
+    </div></div>
     </div>
 </body>
 </html>
