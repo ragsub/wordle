@@ -8,6 +8,9 @@ from django.contrib import messages
 from Wordle.settings import BASE_DIR
 from Word.forms import WordleForm, GuessForm, AlphabetForm
 
+from plotly import express as px
+import pandas as pd
+
 ENCODING_FORMAT='utf8'
 
 def process_word(request):
@@ -42,7 +45,6 @@ def process_word(request):
             #get the other form data
             guess = form.cleaned_data['guess'].lower()
             attempts_left = form.cleaned_data['attempts_left']
-            print(attempts_left)    
             attempt_number = form.cleaned_data['attempt_number']
             
             #clear the word for the next refresh
@@ -82,7 +84,15 @@ def process_word(request):
 
                     if guess == TARGET_WORD:
                         messages.add_message(request=request, level=messages.SUCCESS, message='You solved it in '+ str(attempt_number) + ' attempts! Challenge your friend by clicking '+'<a href='+request.path+'?target_word='+form.cleaned_data['target_word']+'>here</a>', extra_tags='safe')
+                        results = request.session.get('results',None)
+                        if results:
+                            results[str(attempt_number)] = results[str(attempt_number)]+1
+                        else:
+                            results = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0}
+                            results[str(attempt_number)] = 1
 
+                        request.session['results'] = results
+                        print(results)
                     if attempts_left == 1:
                         messages.add_message(request=request, level=messages.ERROR, message = 'Chances over. word is '+TARGET_WORD)
 
@@ -136,8 +146,28 @@ def process_word(request):
         context['alphabet_formset'] = alphabet_formset
 
     #send back the html template
-    return render(request=request, template_name='word/index1.html', context=context)
+    return render(request=request, template_name='word/index.html', context=context)
 
 
 def help_menu(request):
-    pass
+    return render(request=request,template_name='word/help.html')
+
+def results(request):
+    context = {}
+    results = request.session.get('results',None)
+    if results:
+        df = pd.DataFrame.from_dict(results, orient='index')
+    else:
+        results = {'1':0,'2':0,'3':0,'4':0,'5':0,'6':0}
+        df = pd.DataFrame.from_dict([results], orient='index')
+
+    df.reset_index(inplace=True)
+    df.columns = ['attempts','count']
+
+    fig = px.bar(df, x="count", y="attempts", width=350, height=500, labels={'count':'Count','attempts':'Attempts'})
+    fig.update_layout(autosize=True, margin_autoexpand=False)
+
+    context['result'] = fig.to_html(config= {'displaylogo': False}, include_plotlyjs=False)
+    return render(request=request, template_name='word/results.html',context=context)
+
+

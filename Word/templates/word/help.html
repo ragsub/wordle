@@ -1,0 +1,32 @@
+<div id="modal" class="modal" x-ref="modaldiv" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">How to play the game?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ol class="list-group list-group-numbered list-group-flush">
+                <li class="border-0 list-group-item d-flex align-items-start"><div class="container">Guess the target word in 6 guesses</div></li>
+                <li class="border-0 list-group-item d-flex align-items-start"><div class="container">Type the word and press enter to submit the guess</div></li>
+                <li class="border-0 list-group-item d-flex align-items-start">
+                    <div class="container m-0 p-0">
+                        <div class="container">The response color codes the letters to direct you to the target word</div>
+                        <div class="container mt-1 pt-1 mb-0 pb-0 d-flex d-grid justify-content-center">
+                            <input style="height:40px;width:40px;" value = "W" class="text-light bg-secondary form-control fw-bold text-center" size="1">
+                            <input style="height:40px;width:40px;" value = "O" class="text-light bg-success form-control fw-bold text-center" size="1">
+                            <input style="height:40px;width:40px;" value = "R" class="text-light bg-secondary form-control fw-bold text-center" size="1">
+                            <input style="height:40px;width:40px;" value = "D" class="text-light bg-secondary form-control fw-bold text-center" size="1">
+                            <input style="height:40px;width:40px;" value = "S" class="text-light bg-warning form-control fw-bold text-center" size="1">
+                        </div>
+                    </div>
+                </li>
+                <li class="border-0 list-group-item d-flex align-items-start"><div class="container"> Orange indicates the letter is present in target word but not in the same location</div></li>
+                <li class="border-0 list-group-item d-flex align-items-start"><div class="container"> Green indicates the letter is present in target word in the same location</div></li>
+                <li class="border-0 list-group-item d-flex align-items-start"><div class="container"> Gray indicates letter is not present in target word</div></li>
+            </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  
