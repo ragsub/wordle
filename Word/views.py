@@ -165,9 +165,9 @@ def results(request):
     df.columns = ['attempts','count']
 
     fig = px.bar(df, x="count", y="attempts", width=350, height=500, labels={'count':'Count','attempts':'Attempts'})
-    fig.update_layout(autosize=True, margin_autoexpand=False)
+    fig.update_layout(autosize=True, margin_autoexpand=False, template='simple_white')
 
-    context['result'] = fig.to_html(config= {'displaylogo': False}, include_plotlyjs=False)
+    context['result'] = fig.to_html(config= {'displaylogo': False, 'displayModeBar':False}, include_plotlyjs=False)
     return render(request=request, template_name='word/results.html',context=context)
 
 
