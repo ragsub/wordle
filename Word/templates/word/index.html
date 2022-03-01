@@ -33,7 +33,12 @@
                 {{guess_formset}}
                 {{alphabet_formset}}
                 {% for message in messages %}
-                <div x-data="{ show: true }" x-show="show" x-transition class="alert p-1 m-1 {% if message.tags == 'safe success'%} alert-success {%else%} alert-danger {%endif%}" {% if message.tags != 'safe success'%}x-init="setTimeout(() => show = false, 2000){%endif%}">{{ message |safe }}</div>
+                <div x-data="{ show: true }" x-show="show" x-transition class="alert p-1 m-1 {% if message.tags == 'safe success'%} alert-success {%else%} alert-danger {%endif%}" {% if message.tags != 'safe success'%}x-init="setTimeout(() => show = false, 2000){%endif%}">
+                    {{ message |safe }}
+                    {%if message.tags == "safe success"%}
+                    <a href="navigator.share({{message}})"><i class="bi bi-share"></i></a>
+                    {% endif %}
+                </div>
                 {% endfor %}
                 <div x-cloak x-show="show_error" class="alert alert-danger">Word should be 5 letters</div>
             </form>

@@ -7,10 +7,10 @@ from Wordle.settings import BASE_DIR
 def find_word(request):
     context={}
 
-    exact = 't o s'
-    letters_in = 'tos'
+    exact = ' a   '
+    letters_in = 'tka'
 
-    letters_not_in = 'uplabn'
+    letters_not_in = 'eryuiopsfhlcnm'
 
     five_letter_words = os.path.join(BASE_DIR, 'static', '5-letter-words.json')
     en_dict = json.load(open(five_letter_words))
